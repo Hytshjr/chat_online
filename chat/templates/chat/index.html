@@ -1,0 +1,16 @@
+<!-- chat/templates/chat/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat</h1>
+    <form action="{% url 'room' room_name='room' %}">
+        <label for="room-name-input">Room Name:</label>
+        <input id="room-name-input" type="text" name="room_name">
+        <input type="submit" value="Enter">
+    </form>
+</body>
+</html>
