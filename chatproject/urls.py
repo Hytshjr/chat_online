@@ -21,5 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls')),
-    path('startlett/', include('chat_starlette.urls')),  # Asegúrate de tener una aplicación de Django
+    path('startlett/', include('chat.urls')),  # Asegúrate de tener una aplicación de Django
 ]
