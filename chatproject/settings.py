@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     # 'chat',
     # 'daphne',
     'channels',
-    'chat_startlett',
+    'chat_starlette',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

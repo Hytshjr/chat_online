@@ -11,7 +11,7 @@ import os
 import django
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter
-from chat_startlett.routing import websocket_routes
+from chat_starlette.routing import websocket_routes
 from starlette.applications import Starlette
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chatproject.settings')
