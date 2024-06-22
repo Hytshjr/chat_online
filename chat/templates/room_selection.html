@@ -8,14 +8,15 @@
     <div id="chat-log"></div>
     <input id="chat-message-input" type="text" size="30">
     <input id="chat-message-submit" type="button" value="Send">
+    <input type="file" id="image-upload" accept="image/*">
 
     <script>
-        const roomName = "{{ room_name }}";  // or dynamically set this value
+        const roomName = "{{ room_name }}";
         const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + roomName);
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').innerHTML += '<br>' + data.message;
+            document.querySelector('#chat-log').innerHTML += '<br>' + data.content;
         };
 
         chatSocket.onclose = function(e) {
@@ -32,8 +33,23 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({ 'message': message }));
+            chatSocket.send(JSON.stringify({
+                'content': message,
+                'type': 'text',
+            }));
             messageInputDom.value = '';
+        };
+
+        document.querySelector('#image-upload').onchange = function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                chatSocket.send(JSON.stringify({
+                    'type': 'image',
+                    'content': reader.result,
+                }));
+            };
+            reader.readAsDataURL(file);
         };
     </script>
 </body>

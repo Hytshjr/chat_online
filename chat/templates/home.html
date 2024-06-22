@@ -4,22 +4,23 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <h1>Chat Room</h1>
+    <h1>Chat 1:1</h1>
     <div id="chat-log"></div>
-    <input id="chat-message-input" type="text" size="30">
-    <input id="chat-message-submit" type="button" value="Send">
+    <input id="chat-message-input" type="text" size="100">
+    <input id="chat-message-submit" type="button" value="Enviar">
+    <input type="file" id="image-upload" accept="image/*">
 
     <script>
-        const roomName = 'room1';  // or dynamically set this value
-        const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/?room_name=' + roomName);
+        const userId = "{{ user_id }}";
+        const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/?user_id=' + userId);
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').innerHTML += '<br>' + data.message;
+            document.querySelector('#chat-log').innerHTML += '<br>' + (data.type === 'text' ? data.content : `<img src="${data.content}" />`);
         };
 
         chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
+            console.error('El socket del chat se ha cerrado inesperadamente');
         };
 
         document.querySelector('#chat-message-input').focus();
@@ -32,8 +33,27 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({ 'message': message }));
+            chatSocket.send(JSON.stringify({
+                'type': 'text',
+                'content': message,
+                'user_id': userId,
+                'recipient_id': 'user2' // Debe ser dinámico según la lógica de tu aplicación
+            }));
             messageInputDom.value = '';
+        };
+
+        document.querySelector('#image-upload').onchange = function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                chatSocket.send(JSON.stringify({
+                    'type': 'image',
+                    'content': reader.result,
+                    'user_id': userId,
+                    'recipient_id': 'user2' // Debe ser dinámico según la lógica de tu aplicación
+                }));
+            };
+            reader.readAsDataURL(file);
         };
     </script>
 </body>
