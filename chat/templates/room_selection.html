@@ -16,7 +16,7 @@
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').innerHTML += '<br>' + data.content;
+            document.querySelector('#chat-log').innerHTML += '<br>' +  (data.type === 'text' ? data.content : `<img src="${data.content}" />`);
         };
 
         chatSocket.onclose = function(e) {
