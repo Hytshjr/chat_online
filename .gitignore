@@ -1,6 +1,18 @@
+# Cache Python
 __pycache__/
+
+# Migrate
 migrations/
 
-db.sqlite3
+# Logs
+logs/
 
-.idea
+# Virtual Environment
+env/
+venv/
+
+# IDE specific files
+.idea/
+
+# Database
+db.sqlite3
