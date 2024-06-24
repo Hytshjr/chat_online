@@ -1,6 +1,15 @@
 import json
 
 
+class Message:
+    def __init__(self, message_type, content):
+        self.type = message_type
+        self.content = content
+
+    def to_dict(self):
+        return {"type": self.type, "content": self.content}
+
+
 class MessageFactory:
     @staticmethod
     def create_message(message_type, content):
@@ -11,16 +20,13 @@ class MessageFactory:
             else:
                 raise ValueError(f"Tipo de mensaje no soportado: {message_type}")
 
-            return json.loads(json.dumps(message.__dict__))
+            return json.dumps(message.to_dict())
 
 
-class TextMessage:
+class TextMessage(Message):
     def __init__(self, content):
-        self.type = 'text'
-        self.content = content
+        super().__init__('text', content)
 
-
-class ImageMessage:
+class ImageMessage(Message):
     def __init__(self, content):
-        self.content = content
-        self.type = 'image'
+        super().__init__('image', content)

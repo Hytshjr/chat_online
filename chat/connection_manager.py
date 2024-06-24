@@ -1,4 +1,4 @@
-import json
+
 
 class ConnectionManager:
     _instance = None
@@ -28,4 +28,4 @@ class ConnectionManager:
 
     async def broadcast(self, content: str, room_name):
         for connection in self.connections[room_name]:
-            await connection.send_text(json.dumps(content))
+            await connection.send_text(content)
