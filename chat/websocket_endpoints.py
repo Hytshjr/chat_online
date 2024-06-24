@@ -1,10 +1,12 @@
 from starlette.websockets import WebSocket, WebSocketDisconnect
 from .connection_manager import ConnectionManager
 from .messages.message_factory import MessageFactory
+from .error_handler import error_handler
 from .utils import parse_message
 
 connection_manager = ConnectionManager()
 
+@error_handler
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     room_name = websocket.path_params['room_name']
