@@ -16,7 +16,7 @@
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').innerHTML += '<br>' +  (data.type === 'text' ? data.content : `<img src="${data.content}" />`);
+            document.querySelector('#chat-log').innerHTML += '<br>' +  (data.messageType === 'text' ? data.messageContent : `<img src="${data.messageContent}" />`);
         };
 
         chatSocket.onclose = function(e) {
@@ -34,8 +34,8 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'content': message,
-                'type': 'text',
+                'messageContent': message,
+                'messageType': 'text',
             }));
             messageInputDom.value = '';
         };
@@ -45,8 +45,8 @@
             const reader = new FileReader();
             reader.onloadend = function() {
                 chatSocket.send(JSON.stringify({
-                    'type': 'image',
-                    'content': reader.result,
+                    'messageContent': reader.result,
+                    'messageType': 'image',
                 }));
             };
             reader.readAsDataURL(file);

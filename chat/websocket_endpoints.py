@@ -1,6 +1,6 @@
 from starlette.websockets import WebSocket, WebSocketDisconnect
 from .connection_manager import ConnectionManager
-from .message_factory import MessageFactory
+from .messages.message_factory import MessageFactory
 from .utils import parse_message
 
 connection_manager = ConnectionManager()
@@ -15,8 +15,8 @@ async def websocket_endpoint(websocket: WebSocket):
             data = await websocket.receive_text()
             message_data = parse_message(data)
             message = MessageFactory.create_message(
-                                                    message_data['type'],
-                                                    message_data['content']
+                                                    message_data['messageType'],
+                                                    message_data['messageContent']
                                                     )
             await connection_manager.broadcast(message, room_name)
     except WebSocketDisconnect as e:
