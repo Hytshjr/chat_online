@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Migrate
+migrations/
+
+# Logs
+logs/
+
+# Environment variables
+.env
+
+# Virtual Environment
+env/
+venv/
+
+# IDE specific files
+.idea/
+
+# Database
+db.sqlite3
+
+# Coverage
+.coverage
+htmlcov/
